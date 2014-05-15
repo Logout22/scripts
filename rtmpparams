@@ -1,0 +1,3 @@
+#! /bin/bash
+if [ $# -eq 1 ]; then DEVICE=$1; else DEVICE=eth0; fi
+sudo tcpdump -i $DEVICE -n -A | grep -i -e rtmp -e play -e connect -e play

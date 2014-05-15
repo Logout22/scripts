@@ -1,0 +1,12 @@
+#! /bin/bash
+if [ $EUID -ne 0 ]; then
+    echo "Please run this script as root."
+    exit 1
+fi
+if [ "x$1" = "x" ]; then
+    echo "Please specify a USB stick to test (/dev/sdX)."
+    exit 2
+fi
+badblocks -w -s $1 || exit
+usbstick-format $1 $2 $3
+

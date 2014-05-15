@@ -1,0 +1,11 @@
+P = program-name
+OBJECTS =
+LDLIBS =
+
+all: $(P)
+
+$(P): $(OBJECTS)
+
+clean:
+	rm $(P)
+

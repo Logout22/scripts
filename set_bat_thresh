@@ -1,0 +1,20 @@
+#! /bin/bash
+if [ $EUID -ne 0 ]; then
+    echo Please run this script with root priviledges.
+    exit
+fi
+
+START=$1
+STOP=$2
+if [ "x$1" = "x" -o $1 -lt 0 ]; then
+    START=45
+    STOP=55
+elif [ "x$2" = "x" -o $2 -lt 0 ]; then
+    STOP=55
+fi
+
+echo Setting thresholds to $START..$STOP
+cd `dirname $0`
+./tpacpi-bat -v -s ST 0 $START
+./tpacpi-bat -v -s SP 0 $STOP
+

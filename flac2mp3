@@ -1,0 +1,15 @@
+#!/bin/bash
+FLAC=$1
+MP3=$2
+[ -r "$FLAC" ] || { echo can not read file \"$FLAC\" >&1 ; exit 1 ; } ;
+metaflac --export-tags-to=- "$FLAC" | sed 's/=\(.*\)/="\1"/' >tmp.tmp
+. ./tmp.tmp
+rm tmp.tmp
+flac -dc "$FLAC" | lame -V2 --vbr-new --tt "$title" \
+--tn "$tracknumber" \
+--tg "$genre" \
+--ty "$date" \
+--ta "$artist" \
+--tl "$album" \
+--add-id3v2 \
+- "$MP3"

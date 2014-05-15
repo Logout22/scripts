@@ -1,0 +1,23 @@
+#! /bin/bash
+
+filesize() {
+    FILESIZE=`ls -l "$1" | awk '{ print $5 }'`
+}
+
+if [ "x$1" = "x" ]; then
+    echo "Please specify a recording file"
+    exit
+fi
+
+LASTFILESIZE=0
+while [ ! -f ~/stop-rec ]; do
+    filesize "$1"
+    if [ $[$FILESIZE - $LASTFILESIZE] -le 0 ]; then
+        play /usr/share/sounds/KDE-Sys-App-Error-Serious-Very.ogg
+        kdialog --error 'VLC stopped recording!'
+        exit;
+    fi
+    LASTFILESIZE=$FILESIZE
+    sleep 5
+done
+

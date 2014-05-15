@@ -1,0 +1,4 @@
+#! /bin/bash
+# For KDE4
+qdbus org.kde.Solid.PowerManagement /org/freedesktop/PowerManagement Hibernate
+

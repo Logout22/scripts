@@ -1,0 +1,4 @@
+#! /bin/bash
+if [ $# -lt 1 ]; then exit; fi
+ls $1 | while read upName; do loName=`echo "${upName}" | tr '[:upper:]' '[:lower:]'`; mv "$upName" "$loName"; done
+

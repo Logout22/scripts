@@ -1,0 +1,11 @@
+#! /bin/bash
+# low quality
+[ "$1" = "l" ] && \
+vlc "rtsp://daserste.edges.wowza.gl-systemhaus.de/live/mp4:daserste_int_320"
+# medium quality
+[ "x$1" = "x" ] && \
+vlc "rtsp://daserste.edges.wowza.gl-systemhaus.de/live/mp4:daserste_int_576"
+# high quality
+[ "$1" = "h" ] && \
+vlc "rtsp://daserste.edges.wowza.gl-systemhaus.de/live/mp4:daserste_int_1600"
+

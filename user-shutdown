@@ -1,0 +1,9 @@
+#! /bin/bash
+# For GTK-based
+#dbus-send --session --dest=org.freedesktop.PowerManagement \
+#--type=method_call --print-reply --reply-timeout=2000 \
+#/org/freedesktop/PowerManagement org.freedesktop.PowerManagement.Shutdown
+
+# For KDE4
+qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout 0 2 -1
+

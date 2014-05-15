@@ -1,0 +1,2 @@
+#! /bin/bash
+smbnetfs $HOME/smbfs

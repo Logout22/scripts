@@ -1,0 +1,9 @@
+#! /bin/bash
+KERNEL_NAME=`uname -r`
+KERNEL_VERSION=${KERNEL_NAME%-generic}
+PKGLIST=
+for i in linux-image linux-image-extra linux-headers; do
+  PKGTMP=`dpkg --get-selections | awk "/$i-[0-9]/ && !/$KERNEL_VERSION/ { if(\\\$2 == \"install\") print \\\$1; }"`
+  PKGLIST="$PKGLIST $PKGTMP"
+done
+sudo apt-get remove $PKGLIST

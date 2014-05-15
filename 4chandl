@@ -1,0 +1,59 @@
+#! /usr/bin/env perl
+use strict;
+use warnings;
+use LWP;
+use LWP::ConnCache;
+
+sub usage() {
+    print("Usage: 4chandl <thread URL>\n");
+    exit;
+}
+
+# MAIN
+if ($#ARGV < 0) {
+    usage;
+}
+
+my $browser = LWP::UserAgent->new;
+$browser->timeout(10);
+# for HTTP Keep-alive (major throughput improvement)
+$browser->conn_cache(LWP::ConnCache->new());
+
+# first get the thread page
+my $url = $ARGV[0];
+print("Retrieving $url...\n");
+my $page_resp = $browser->get($url);
+if (!$page_resp->is_success) {
+    die("Unable to get page $url: $page_resp->status_line");
+}
+
+# extract thread ID and create according thread subdirectory
+reverse($url) =~ /[0-9]+/;
+my $threadid = reverse($&);
+if ($threadid eq "") {
+    print("Empty thread ID\n");
+    usage;
+}
+if (! -d $threadid) {
+    mkdir($threadid) or die("Could not create directory $threadid");
+}
+chdir $threadid;
+
+# go through the page content link by link
+my $server = "i.4cdn.org";
+my $content = $page_resp->content;
+while ($content =~ /$server\/[a-z]+\/([^"]+)/) {
+    my $furl = $&;
+    my $fname = $1;
+    if (! -e $fname) {
+        if(!$browser->mirror("http://$furl", $fname)->is_success) {
+            print("Could not retrieve $fname: $page_resp->status_line\n");
+        } else {
+            print("Added $fname\n");
+        }
+    }
+    # continue after the match
+    $content = substr($content, $+[0]);
+}
+print("Done.\n");
+

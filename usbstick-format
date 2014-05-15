@@ -1,0 +1,75 @@
+#! /bin/bash
+
+function part_for_fat {
+    if [ $FATSIZE -eq 16 ]; then
+        PARTTYPE="6"
+    elif [ $FATSIZE -eq 32 ]; then
+        PARTTYPE="b"
+    else
+        PARTTYPE="7"
+    fi
+}
+
+function usage {
+    echo "Usage: $0 <drive node> [ <fat size> [<label>] ]"
+    echo
+    echo "<drive node> e.g. /dev/sdb"
+    exit
+}
+
+if [ "x$1" = "x" ]; then
+    usage
+fi
+[ $EUID -ne 0 ] && echo "Please run as superuser." && exit
+DRIVENAME="${1##*/}"
+DRIVESIZE=`lsblk -b | grep "\\<$DRIVENAME\\>" | awk '{ print $4 }'`
+
+CONFIRM=0
+if [ "x$2" = "x" ]; then
+    CONFIRM=1
+    # FAT16 until its limit (~2G), then FAT32 until 8G, then exFAT/NTFS
+    if [ $DRIVESIZE -lt 2147090432 ]; then
+        FATSIZE=16
+    elif [ $DRIVESIZE -lt 8589934592 ]; then
+        FATSIZE=32
+    else
+        FATSIZE=0
+    fi
+else
+    FATSIZE=$2
+fi
+part_for_fat
+
+if [ "x$3" = "x" ]; then
+    CONFIRM=1
+    DRIVELABEL="STICK"
+else
+    DRIVELABEL="$3"
+fi
+
+echo "Formatting stick ${1}1 as $DRIVELABEL (fat size $FATSIZE)."
+if [ $CONFIRM -ne 0 ]; then
+    read -p "Ctrl-C to cancel."
+fi
+
+echo "n
+p
+
+
+
+t
+$PARTTYPE
+a
+w" | fdisk $1
+
+# now format the first partition
+if [ $FATSIZE -gt 0 ]; then
+    mkdosfs -F $FATSIZE -n "$DRIVELABEL" ${1}1
+else
+    if which mkexfatfs; then
+        mkexfatfs -n "$DRIVELABEL" ${1}1
+    else
+        mkntfs -f -L "$DRIVELABEL" ${1}1
+    fi
+fi
+
