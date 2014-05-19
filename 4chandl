@@ -24,7 +24,7 @@ my $url = $ARGV[0];
 print("Retrieving $url...\n");
 my $page_resp = $browser->get($url);
 if (!$page_resp->is_success) {
-    die("Unable to get page $url: $page_resp->status_line");
+    die("Unable to get page $url: ".$page_resp->status_line);
 }
 
 # extract thread ID and create according thread subdirectory
@@ -47,7 +47,7 @@ while ($content =~ /$server\/[a-z]+\/([^"]+)/) {
     my $fname = $1;
     if (! -e $fname) {
         if(!$browser->mirror("http://$furl", $fname)->is_success) {
-            print("Could not retrieve $fname: $page_resp->status_line\n");
+            print("Could not retrieve $fname: ".$page_resp->status_line."\n");
         } else {
             print("Added $fname\n");
         }
