@@ -44,7 +44,7 @@ function start_maintenance() {
         "ssh -p $PORT -t john@$ADDRESS './upall'" || \
         return $?
     perform_step 3 "Perform full system upgrade" \
-        "upall" || \
+        "$HOME/bin/upall" || \
         return $?
 }
 
@@ -55,7 +55,7 @@ CURTIME=`date "+%s"`
 # 3 days
 INTERVAL=259200
 # only reqd for raspberry-related cmds including $PORT or $ADDRESS
-source `dirname $0`/checkraspi
+source `dirname $0`/checkraspi > $F_LOG 2>&1
 
 load_state
 STATE=$?
