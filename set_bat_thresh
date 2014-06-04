@@ -1,6 +1,6 @@
 #! /bin/bash
 if [ $EUID -ne 0 ]; then
-    echo Please run this script with root priviledges.
+    echo Please run this script with root privileges.
     exit
 fi
 
@@ -14,7 +14,8 @@ elif [ "x$2" = "x" -o $2 -lt 0 ]; then
 fi
 
 echo Setting thresholds to $START..$STOP
-cd `dirname $0`
+cd -P `dirname $0`/tpacpi-bat
+git pull origin master
 ./tpacpi-bat -v -s ST 0 $START
 ./tpacpi-bat -v -s SP 0 $STOP
 
