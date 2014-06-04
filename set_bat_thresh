@@ -1,9 +1,4 @@
 #! /bin/bash
-if [ $EUID -ne 0 ]; then
-    echo Please run this script with root privileges.
-    exit
-fi
-
 START=$1
 STOP=$2
 if [ "x$1" = "x" -o $1 -lt 0 ]; then
@@ -16,6 +11,6 @@ fi
 echo Setting thresholds to $START..$STOP
 cd -P `dirname $0`/tpacpi-bat
 git pull origin master
-./tpacpi-bat -v -s ST 0 $START
-./tpacpi-bat -v -s SP 0 $STOP
+sudo ./tpacpi-bat -v -s ST 0 $START
+sudo ./tpacpi-bat -v -s SP 0 $STOP
 
