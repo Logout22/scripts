@@ -1,5 +1,5 @@
 #! /bin/bash
-yaourt -Syua --devel
+EDITOR=vim yaourt -Syua --devel
 echo
 echo
 read -p "Consider reading the upgrade messages!"
