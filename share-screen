@@ -1,5 +1,5 @@
 #! /bin/bash
 
-# do not forget to set a password before using vncpasswd
+# do not forget to set a password using vncpasswd
 
 x0vncserver -PasswordFile=~/.vnc/passwd
