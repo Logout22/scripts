@@ -18,7 +18,8 @@ COMMONWARN+="-ftrapv "             # trap on integer overflow
 COMMONWARN+="-Wformat=2 "          # thoroughly check format strings
 COMMONWARN+="-Wlogical-op "        # possible misuse of logical operator
 COMMONWARN+="-Wredundant-decls "   # multiple decls in same scope
-CFLAGS="$COMMONWARN -std=c11 "
+CFLAGS="$COMMONWARN "
+#CFLAGS+="-std=c11 "               # no proper support from public includes yet
 CFLAGS+="-save-temps "             # leave preproc output to debug macros
 CFLAGS+="-Wnested-externs "        # extern within function
 export CFLAGS
