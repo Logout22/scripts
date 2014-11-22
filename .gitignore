@@ -1,10 +1,12 @@
 afraid.org-update
 checkraspi
-mediathekview
 mountos
 mountraspi
 testproxy
 umountos
 umountraspi
 tpacpi-bat
-
+inferior_tty.py
+pdb-clone
+pyclewn
+tca
