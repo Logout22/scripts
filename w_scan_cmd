@@ -1,3 +1,3 @@
 #! /bin/bash
-w_scan -f c -c DE -X > channels.conf
+w_scan -v -v -f c -c DE -E 0 -X > channels.conf 2> /tmp/w_scan.log
 
