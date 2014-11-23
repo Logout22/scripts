@@ -1,3 +1,0 @@
-#! /bin/bash
-x11vnc -display :0 -auth /var/run/lxdm/lxdm-\:0.auth -connect remotehost
-
