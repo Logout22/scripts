@@ -2,4 +2,5 @@
 
 # do not forget to set a password using vncpasswd
 
-x0vncserver -PasswordFile=~/.vnc/passwd
+x0vncserver -display ":0" -PasswordFile=$HOME/.vnc/passwd
+
