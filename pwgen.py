@@ -1,4 +1,4 @@
-from random import randrange
+from random import choice
 
 allowed_chars =\
 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\
@@ -6,6 +6,5 @@ allowed_chars =\
 
 pwstr = ""
 for i in range(20):
-    pwstr += allowed_chars[randrange(0, len(allowed_chars))]
+    pwstr += choice(allowed_chars)
 print(pwstr)
-
