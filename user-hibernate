@@ -1,4 +1,12 @@
-#! /bin/bash
-# For KDE4
-qdbus org.kde.Solid.PowerManagement /org/freedesktop/PowerManagement Hibernate
+#! /bin/sh
+if pgrep kdeinit; then
+    # For KDE4
+    qdbus org.kde.Solid.PowerManagement \
+    /org/freedesktop/PowerManagement Hibernate
+else
+    # For GTK-based
+    dbus-send --session --dest=org.freedesktop.PowerManagement \
+    --type=method_call --print-reply --reply-timeout=2000 \
+    /org/freedesktop/PowerManagement org.freedesktop.PowerManagement.Hibernate
+fi
 
