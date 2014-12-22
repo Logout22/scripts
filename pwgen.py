@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 from random import choice
 
 allowed_chars =\
@@ -8,3 +10,4 @@ pwstr = ""
 for i in range(20):
     pwstr += choice(allowed_chars)
 print(pwstr)
+
