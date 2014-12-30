@@ -1,3 +1,4 @@
 #! /bin/sh
+SCRIPTDIR=`dirname "$0"`
 make -j $[ `grep -c processor /proc/cpuinfo` + 1 ] \
-    -f /home/munzner/bin/Makefile.mp3
+    -f $SCRIPTDIR/Makefile.mp3
