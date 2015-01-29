@@ -1,0 +1,3 @@
+#! /bin/bash
+[ $(ps ax | grep -c davmail) -le 1 ] && /usr/bin/davmail
+
