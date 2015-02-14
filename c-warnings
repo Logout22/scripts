@@ -1,6 +1,6 @@
 #! /bin/bash
 COMMONWARN="-g -O3 -Wall -Wextra " # as usual
-#COMMONWARN+="-pedantic "           # strict standard adherence
+COMMONWARN+="-Werror "             # make all warnings errors
 COMMONWARN+="-Wshadow "            # local variables that shadow global ones
 COMMONWARN+="-Wfloat-equal "       # dont compare floats with == (-> manpage)
 COMMONWARN+="-Wundef "             # uninitialized identifier in #if
