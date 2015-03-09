@@ -42,7 +42,7 @@ chdir $threadid;
 # go through the page content link by link
 my $server = "i.4cdn.org";
 my $content = $page_resp->content;
-while ($content =~ /$server\/[a-z]+\/([^"]+)/) {
+while ($content =~ /$server\/[a-z]+\/([0-9]+\.[a-z]+)/) {
     my $furl = $&;
     my $fname = $1;
     if (! -e $fname) {
