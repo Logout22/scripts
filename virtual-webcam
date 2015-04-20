@@ -1,0 +1,9 @@
+#! /bin/sh
+if [ "x$1" = "x" ]; then
+  echo "Provide a file to be played"
+  exit 1
+fi
+
+sudo modprobe v4l2loopback
+mplayer "$1" -vo yuv4mpeg:file=/dev/fd/3 3>&1 1>&2 | yuv4mpeg_to_v4l2 /dev/video1
+
