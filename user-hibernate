@@ -1,8 +1,11 @@
 #! /bin/sh
-if pgrep kdeinit; then
+if [ $DESKTOP_SESSION = kde ]; then
     # For KDE4
     qdbus org.kde.Solid.PowerManagement \
     /org/freedesktop/PowerManagement Hibernate
+elif [ $DESKTOP_SESSION = xfce ]; then
+    # For Xfce
+    xfce4-session-logout --hibernate
 else
     # For GTK-based
     dbus-send --session --dest=org.freedesktop.PowerManagement \

@@ -1,8 +1,11 @@
 #! /bin/sh
-if pgrep kdeinit; then
+if [ $DESKTOP_SESSION = kde ]; then
     # For KDE4
     qdbus org.kde.ksmserver /KSMServer \
     org.kde.KSMServerInterface.logout 0 2 -1
+elif [ $DESKTOP_SESSION = xfce ]; then
+    # For Xfce
+    xfce4-session-logout --halt
 else
     # For GTK-based
     dbus-send --session --dest=org.freedesktop.PowerManagement \
