@@ -1,0 +1,8 @@
+#! /bin/sh
+sudo modprobe v4l2loopback
+RESOLUTION=$(xrandr | awk '/\+/ && !/connected/ { print $1 }')
+ffmpeg -f x11grab -r 5 -s $RESOLUTION -i :0.0+0,0 -vcodec rawvideo -pix_fmt yuv420p -threads 0 -f v4l2 /dev/video1 &
+sleep 1
+vlc v4l2:///dev/video1 ':sout=#transcode{vcodec=MJPG,acodec=none}:standard{access=http,mux=mpjpeg,dst=0.0.0.0:8080/}'
+wait
+
