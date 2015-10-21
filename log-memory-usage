@@ -1,0 +1,21 @@
+#! /bin/sh
+# need bc for computations
+which bc > /dev/null || exit
+
+PID=$1
+SAMPLING_INTERVAL=$2
+# set default sampling interval of 10ms if none given
+[ "x$SAMPLING_INTERVAL" = "x" ] && SAMPLING_INTERVAL=0.010
+TIME=0
+while kill -0 $PID 2>/dev/null; do
+    # X value
+    TIMEINMS=$(echo "$TIME * 1000" | bc)
+    echo -n "$TIMEINMS "
+    # Y value
+    echo 0 $(awk '/Rss/ {print "+"$2}' /proc/$PID/smaps) | bc
+
+    sleep $SAMPLING_INTERVAL
+    TIME=$(echo "$TIME + $SAMPLING_INTERVAL" | bc)
+done
+echo Process exited. >&2
+
