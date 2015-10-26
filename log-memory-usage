@@ -1,10 +1,32 @@
 #! /bin/sh
-# need bc for computations
-which bc > /dev/null || exit
+
+usage() {
+    echo "Usage: $0 <PID> [sample rate]"
+    echo
+    echo "Records the memory usage (RSS) of the process with ID <PID>"
+    echo "to standard output at intervals of <sample rate> seconds."
+    echo "If no sample rate is given, it defaults to 10 ms."
+    echo
+    echo "The first column of the output is the sample time stamp"
+    echo "in milliseconds, starting from 0."
+    echo "The second column is the memory usage in kilobytes."
+    echo "This layout makes it easier to plot the data, e.g. using gnuplot"
+    echo "(see also plot-memory-usage script)."
+    exit 1
+}
+
+if ! which bc > /dev/null; then
+    echo "This script requires 'bc' for internal floating point computations."
+    echo "Please install bc on your system. Exiting."
+    exit 1
+fi
+
+if [ $# -lt 1 ]; then
+    usage
+fi
 
 PID=$1
 SAMPLING_INTERVAL=$2
-# set default sampling interval of 10ms if none given
 [ "x$SAMPLING_INTERVAL" = "x" ] && SAMPLING_INTERVAL=0.010
 TIME=0
 while kill -0 $PID 2>/dev/null; do
