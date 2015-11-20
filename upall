@@ -1,5 +1,18 @@
 #! /bin/bash
-EDITOR=vim yaourt -Syua --devel
+if which yaourt > /dev/null 2>&1; then
+    EDITOR=vim yaourt -Syua --devel
+else
+    # Gentoo
+    if [ $UID -ne 0 ]; then
+        sudo "$0" "$@"
+        exit
+    else
+        emerge --sync || exit
+        emerge -DuN --with-bdeps=y "@world" || exit
+        emerge --depclean || exit
+        while ! revdep-rebuild; do sleep 5; done
+    fi
+fi
 echo
 echo
 read -p "Consider reading the upgrade messages!"
