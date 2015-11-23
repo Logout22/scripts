@@ -1,5 +1,5 @@
 #! /bin/bash
 # connect to listening viewer:
 #x11vnc -display ":0" -auth /var/run/lxdm/lxdm-\:0.auth -connect remotehost
-x11vnc -rfbauth $HOME/.vnc/passwd -localhost -nowf > /tmp/localvnc.log 2>&1
+x11vnc -rfbauth $HOME/.vnc/passwd -localhost -nowf -forever > /tmp/localvnc.log 2>&1
 
