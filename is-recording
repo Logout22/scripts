@@ -16,7 +16,7 @@ while [ ! -f $HOME/stop-rec ]; do
         for i in $(seq 1 5); do
             play /usr/share/sounds/freedesktop/stereo/dialog-error.oga
         done
-        zenity --error --title "VLC Recording" --text 'VLC stopped recording!'
+        zenity --error --title "Recording" --text 'Stopped recording!'
         exit 1
     fi
     LASTFILESIZE=$FILESIZE
