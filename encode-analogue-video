@@ -1,0 +1,12 @@
+#! /bin/bash
+CROPX=6
+CROPY=6
+CROPW=$[12+$CROPX]
+CROPH=$[8+$CROPY]
+ffmpeg -i "$1" \
+    ${2+-ss $2} \
+    -vf "crop=w=iw-$CROPW:h=ih-$CROPH:x=$CROPX:y=$CROPY,il=d:d:d,hqdn3d,il=i:i:i" \
+    -c:v libx265 -preset medium -x265-params crf=20 \
+    -c:a aac -strict experimental -b:a 160k \
+    ${3+-to $3} \
+    "${1%.avi}.mkv"
