@@ -1,4 +1,0 @@
-#! /bin/sh
-mediainfo -f --Output=HTML "$@" > /tmp/mediainfo-out.html 2>&1
-firefox /tmp/mediainfo-out.html
-

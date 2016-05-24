@@ -1,6 +1,0 @@
-#! /bin/bash
-dolphin $HOME/Musik &
-vlc --sout '#standard' --sout-keep \
-    --sout-standard-access http --sout-standard-mux ogg \
-    --http-port 9090 --no-sout-display-audio &
-

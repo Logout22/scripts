@@ -1,7 +1,0 @@
-#! /bin/sh
-# courtesy Bowie Owens
-# see http://stackoverflow.com/questions/11520623
-git svn show-externals | \
- perl -ne 'if (/^\/(.*) (.*)/) { print "git svn clone -qq $2 $1\n"; }' | \
- bash
-
