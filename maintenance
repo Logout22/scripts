@@ -20,8 +20,7 @@ function perform_step() {
         # ask before each step using zenity
         zenity --question --title "Step $STEP" --text "$TEXT" || \
             return $?
-        # open xterms separately
-        xterm -hold -e "/bin/bash" -c "$CMD"
+        "/bin/bash" -c "$CMD"
         zenity --question --title "Step $STEP complete" --text "Success?" || \
             return $?
         # save last executed step
@@ -30,20 +29,7 @@ function perform_step() {
 }
 
 function start_maintenance() {
-    if ! (which zenity && which xterm)>/dev/null; then
-        LOG Please install zenity and xterm
-        exit 2
-    fi
-
-#    perform_step 1 "Perform Raspberry backup" \
-#        "cd $HOME/raspberry && \
-#        ssh -p $PORT john@$ADDRESS 'sudo ./backup.sh' | \
-#        ./backup-raspberry.sh" || \
-#        return $?
-#    perform_step 2 "Perform Raspberry full system upgrade" \
-#        "ssh -p $PORT -t john@$ADDRESS './upall'" || \
-#        return $?
-    perform_step 3 "Perform full system upgrade" \
+    perform_step 1 "Perform full system upgrade" \
         "$HOME/bin/upall" || \
         return $?
 }
@@ -54,12 +40,10 @@ F_LOG=$HOME/last_maintenance_log
 CURTIME=`date "+%s"`
 # 3 days
 INTERVAL=259200
-# only reqd for raspberry-related cmds including $PORT or $ADDRESS
-source `dirname $0`/checkraspi > $F_LOG 2>&1
 
 load_state
 STATE=$?
-NUMBER_OF_STEPS=3
+NUMBER_OF_STEPS=1
 # maintenance run complete?
 if [ $STATE -eq $NUMBER_OF_STEPS ]; then
     # when?
