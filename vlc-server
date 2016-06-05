@@ -1,11 +1,11 @@
 #! /bin/bash
 
 usage() {
-    echo "Usage: vlc-record <channel> <audio track> <sub track>"
+    echo "Usage: $0 <channel> <audio track> <sub track>"
     echo
     echo "Destination port is 9090"
     echo "Audio and subtitle IDs starting from 0"
-    exit
+    exit 1
 }
 
 [ "x$3" = "x" ] && usage
