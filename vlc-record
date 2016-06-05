@@ -1,4 +1,25 @@
 #! /bin/bash
-while ! [[ -e stop-rec ]]; do
-    cvlc --play-and-exit "${1:?}" --sout="file/ts:$(date +%s)_${2:?}"
-done
+set -e
+set -u
+
+function on_exit() {
+    STATUS="EXITING"
+    kill $VLCPID
+    sleep 1
+    if kill -0 $VLCPID; then
+        sleep 5
+        kill -9 $VLCPID
+    fi
+}
+
+function run_vlc() {
+    while ! [[ "$STATUS" == "EXITING" ]]; do
+        cvlc --play-and-exit "${1:?}" --sout="file/ts:$(date +%s)_${2:?}"
+    done
+}
+
+STATUS="RUNNING"
+trap on_exit EXIT
+run_vlc $* &
+VLCPID=$!
+read
