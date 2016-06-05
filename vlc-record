@@ -1,2 +1,4 @@
 #! /bin/bash
-cvlc "${1:?}" --sout="file/ts:${2:?}"
+while ! [[ -e stop-rec ]]; do
+    cvlc --play-and-exit "${1:?}" --sout="file/ts:$(date +%s)_${2:?}"
+done
