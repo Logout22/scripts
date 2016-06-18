@@ -9,5 +9,5 @@ cd /usr/src/linux && \
     make install && \
     genkernel --install --no-ramdisk-modules --lvm initramfs && \
     grub2-mkconfig -o /boot/grub/grub.cfg && \
-    cp .config /home/munzner/Dropbox/kernel-config-$(basename $(pwd -P))
+    cp .config $HOME/Dropbox/config/kernel-config-$(basename $(pwd -P))
 
