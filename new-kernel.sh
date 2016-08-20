@@ -8,6 +8,6 @@ cd /usr/src/linux && \
     make modules_install && \
     make install && \
     genkernel --install --no-ramdisk-modules --lvm initramfs && \
-    grub2-mkconfig -o /boot/grub/grub.cfg && \
+    grub-mkconfig -o /boot/grub/grub.cfg && \
     cp .config $HOME/Dropbox/config/kernel-config-$(basename $(pwd -P))
 
