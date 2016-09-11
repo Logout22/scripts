@@ -1,4 +1,20 @@
-#! /bin/sh
-SCRIPTDIR=`dirname "$0"`
-make -j $[ `grep -c processor /proc/cpuinfo` + 1 ] \
-    -f $SCRIPTDIR/Makefile.mp3
+#! /bin/bash
+
+set -e
+set -u
+
+function convert_wav_file {
+    lame --quiet -V2 --vbr-new "$1" "${1%.wav}.mp3" && rm "$1"
+}
+
+function collect_wav_files {
+    local files=(*.wav)
+    parallel -j $(( $(grep -c processor /proc/cpuinfo) + 1 )) "$0" convert ::: "${files[@]}"
+}
+
+if [[ $# -gt 1 && "$1" == "convert" ]]; then
+    shift
+    convert_wav_file "$@"
+else
+    collect_wav_files "$@"
+fi

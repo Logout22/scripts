@@ -1,9 +1,0 @@
-WAVFILES = $(wildcard *.wav)
-MP3FILES = $(WAVFILES:.wav=.mp3)
-
-.PHONY: all
-
-all: $(MP3FILES)
-
-%.mp3: %.wav
-	lame --quiet -V2 --vbr-new $< $@ && rm $<
