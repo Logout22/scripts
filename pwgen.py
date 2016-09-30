@@ -5,7 +5,7 @@ from random import randrange, choice, sample
 uppercase_letters = "ABCDEFGHIJKLMNOPQRSTUVWX"
 lowercase_letters = "abcdefghijklmnopqrstuvwx"
 numbers = "1234567890"
-special_chars = ".,"
+special_chars = "!$%"
 alphanumerical = "".join([uppercase_letters, lowercase_letters, numbers])
 charcount = 10
 
