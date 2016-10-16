@@ -20,7 +20,7 @@ function perform_step() {
         # ask before each step using zenity
         zenity --question --title "Step $STEP" --text "$TEXT" || \
             return $?
-        "/bin/bash" -c "$CMD"
+        xdg-open "$CMD"
         zenity --question --title "Step $STEP complete" --text "Success?" || \
             return $?
         # save last executed step
