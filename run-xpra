@@ -1,0 +1,3 @@
+#! /bin/bash
+# from https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=816533
+xpra start --xvfb="/usr/bin/Xvfb +extension Composite -screen 0 3840x2560x24+32 -nolisten tcp -noreset"
