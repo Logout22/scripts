@@ -1,5 +1,4 @@
 #! /bin/bash
-# connect to listening viewer:
-#x11vnc -display ":0" -auth /var/run/lxdm/lxdm-\:0.auth -connect remotehost
-x11vnc -rfbauth $HOME/.vnc/passwd -localhost -nowf -forever > /tmp/localvnc.log 2>&1
-
+# Install tigervnc to get x0vncserver
+# Run vncpasswd first
+x0vncserver -rfbauth "$HOME/.vnc/passwd" -display ":0"

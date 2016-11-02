@@ -1,6 +1,0 @@
-#! /bin/bash
-
-# do not forget to set a password using vncpasswd
-
-x0vncserver -display ":0" -PasswordFile=$HOME/.vnc/passwd
-
