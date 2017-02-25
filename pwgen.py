@@ -7,7 +7,7 @@ lowercase_letters = "abcdefghijklmnopqrstuvwx"
 numbers = "1234567890"
 special_chars = "!$%"
 alphanumerical = "".join([uppercase_letters, lowercase_letters, numbers])
-charcount = 10
+charcount = 12
 
 def generate_password():
     special_char_pos = randrange(charcount - 3) + 1
