@@ -11,6 +11,7 @@ else
         emerge -DuN --with-bdeps=y "@world" || exit
         emerge --depclean || exit
         while ! revdep-rebuild; do sleep 5; done
+        eix-update
     fi
 fi
 echo
