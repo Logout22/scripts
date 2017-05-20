@@ -7,7 +7,7 @@ else
         sudo "$0" "$@"
         exit
     else
-        emerge --sync || exit
+        emerge --sync
         emerge -DuN --with-bdeps=y "@world" || exit
         emerge --depclean || exit
         while ! revdep-rebuild; do sleep 5; done
