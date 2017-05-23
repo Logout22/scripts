@@ -1,10 +1,5 @@
 #! /bin/bash
 
-function usage() {
->&2 echo "Usage: rsync-default PORT BWLIMIT ..."
-exit
-}
-
 function rsync-dry-cmd() {
 >&2 echo "Command: rsync" "${OPTS[@]}" "$@"
 >&2 echo
@@ -12,18 +7,7 @@ function rsync-dry-cmd() {
 rsync --dry-run "${OPTS[@]}" "$@"
 }
 
-if [[ $# -lt 4 ]]; then
-    usage
-fi
-
 OPTS=("-auv" "--partial" "--progress" "--inplace" "--delete")
-if [[ $1 -ne 0 ]]; then
-    OPTS+=("--rsh=\"ssh -p $1\"")
-fi
-if [[ $2 -ne 0 ]]; then
-    OPTS+=("--bwlimit=$2")
-fi
-shift 2
 rsync-dry-cmd "$@"
 read -p "Continue? (y/[n])" cont_decision
 if [[ $cont_decision != "y" ]]; then
