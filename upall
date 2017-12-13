@@ -1,6 +1,6 @@
 #! /bin/bash
 if which yaourt > /dev/null 2>&1; then
-    EDITOR=vim yaourt -Syua --devel
+    yaourt -Syua --devel
 else
     # Gentoo
     if [ $UID -ne 0 ]; then
