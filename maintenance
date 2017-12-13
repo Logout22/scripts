@@ -1,67 +1,31 @@
 #! /bin/bash
-
-function LOG() {
-    echo $@ > $F_LOG
-}
-
-function load_state() {
-    if [ ! -f $F_STATE ]; then
-        return 0
-    else
-        return `cat $F_STATE`
-    fi
-}
-
-function perform_step() {
-    STEP=$1
-    TEXT=$2
-    CMD=$3
-    if [ $STATE -lt $STEP ]; then
-        # ask before each step using zenity
-        zenity --question --title "Step $STEP" --text "$TEXT" || \
-            return $?
-        xdg-open "$CMD"
-        zenity --question --title "Step $STEP complete" --text "Success?" || \
-            return $?
-        # save last executed step
-        STATE=$STEP
-    fi
-}
+set -o errexit
+set -o nounset
 
 function start_maintenance() {
-    perform_step 1 "Perform full system upgrade" \
-        "$HOME/bin/upall" || \
-        return $?
+    zenity \
+        --question \
+        --title "Upgrade" \
+        --text "Perform full system upgrade?" || return
+    if which gnome-terminal; then
+        local terminal=gnome-terminal --
+    else
+        local terminal=konsole --nofork -e
+    fi
+    $terminal "$HOME/bin/upall"
+    zenity --question --title "Upgrade complete" --text "Success?"
 }
 
 F_LASTRUN=$HOME/last_maintenance_run
-F_STATE=$HOME/last_maintenance_state
-F_LOG=$HOME/last_maintenance_log
-CURTIME=`date "+%s"`
-# 3 days
-INTERVAL=259200
-
-load_state
-STATE=$?
-NUMBER_OF_STEPS=1
-# maintenance run complete?
-if [ $STATE -eq $NUMBER_OF_STEPS ]; then
-    # when?
-    if [ -f $F_LASTRUN ]; then
-        LASTTIME=`cat $F_LASTRUN`
-        if [ $[$CURTIME - $LASTTIME] -le $INTERVAL ]; then
-            # complete run less than INTERVAL ago, exiting
-            exit
-        fi
+if [[ -f "$F_LASTRUN" ]]; then
+    LASTTIME=$(stat -c '%Y' "$F_LASTRUN")
+    CURTIME=$(date '+%s')
+    INTERVAL=259200 # 3 days
+    if [[ $((CURTIME - LASTTIME)) -le $INTERVAL ]]; then
+        exit
     fi
-    # no excuses, start new run now
-    STATE=0
 fi
 
 start_maintenance
-LOG start_maintenance exited with code $?
 
-# done, now remember the state
-echo $STATE > $F_STATE
-echo $CURTIME > $F_LASTRUN
-
+touch "$F_LASTRUN"
