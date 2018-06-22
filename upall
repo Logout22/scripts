@@ -1,20 +1,59 @@
 #! /bin/bash
-if which yaourt > /dev/null 2>&1; then
-    yaourt -Syua --devel
-else
-    # Gentoo
-    if [ $UID -ne 0 ]; then
-        sudo "$0" "$@"
-        exit
-    else
-        emerge --sync
-        emerge -DuN --with-bdeps=y "@world" || exit
-        emerge --depclean || exit
-        while ! revdep-rebuild; do sleep 5; done
-        eix-update
-    fi
-fi
-echo
-echo
-read -p "Consider reading the upgrade messages!"
+function onexit()
+{
+    echo
+    echo
+    read -rp "Consider reading the upgrade messages!"
+}
 
+function is_arch()
+{
+    command -v yaourt > /dev/null
+}
+
+function update_arch()
+{
+    yaourt -Syua --devel
+}
+
+function is_gentoo()
+{
+    command -v emerge > /dev/null
+}
+
+function update_gentoo()
+{
+    if ! is_root; then
+        elevate_script_with_sudo
+    else
+        perform_gentoo_upgrade_procedure
+    fi
+}
+
+function is_root()
+{
+    [[ $UID -eq 0 ]]
+}
+
+function elevate_script_with_sudo()
+{
+    trap - EXIT
+    sudo "$0"
+    exit
+}
+
+function perform_gentoo_upgrade_procedure()
+{
+    emerge --sync
+    emerge -DuN --with-bdeps=y "@world" || exit
+    emerge --depclean || exit
+    while ! revdep-rebuild; do sleep 5; done
+    eix-update
+}
+
+trap onexit EXIT
+for system in arch gentoo; do
+    if is_${system}; then
+        update_${system}
+    fi
+done
