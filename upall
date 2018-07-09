@@ -8,12 +8,12 @@ function onexit()
 
 function is_arch()
 {
-    command -v yaourt > /dev/null
+    command -v aurman > /dev/null
 }
 
 function update_arch()
 {
-    yaourt -Syua --devel
+    aurman -Syu --devel
 }
 
 function is_gentoo()
