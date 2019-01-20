@@ -7,7 +7,7 @@ function start_maintenance() {
         --question \
         --title "Upgrade" \
         --text "Perform full system upgrade?" || return
-    if which gnome-terminal >/dev/null 2>&1; then
+    if type gnome-terminal >/dev/null 2>&1; then
         local terminal="gnome-terminal --"
     else
         local terminal="konsole --nofork -e"
