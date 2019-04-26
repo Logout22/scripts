@@ -8,12 +8,12 @@ function onexit()
 
 function is_arch()
 {
-    command -v picaur > /dev/null
+    command -v pikaur > /dev/null
 }
 
 function update_arch()
 {
-    picaur -Syu --devel
+    pikaur -Syu --devel
 }
 
 function is_gentoo()
