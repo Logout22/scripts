@@ -3,15 +3,35 @@ set -o errexit
 set -o nounset
 
 cleanup() {
-    rm -f hdout
+    rm -rf "$tmpdir"
 }
 
-if [[ -e hdout ]]; then exit 42; fi
-mkfifo hdout
+write_random_data() {
+    mkfifo "$tmpdir/hdout"
+    dd if=/dev/urandom bs=4K count=$2 status=none \
+        | tee "$tmpdir/hdout" \
+        | sha256sum > "$tmpdir/writesum.sha256sum" &
+    dd if="$tmpdir/hdout" of="$1" oflag=sync bs=4K status=progress
+    wait $(jobs -p)
+    echo "Finished writing; checksum:"
+    cat "$tmpdir/writesum.sha256sum"
+}
+
+read_random_data() {
+    dd if="$1" iflag=sync bs=4K count=$2 status=progress \
+        | sha256sum > "$tmpdir/readsum.sha256sum"
+    echo "Finished reading back; checksum:"
+    cat "$tmpdir/readsum.sha256sum"
+}
+
+check_random_data() {
+    if cmp "$tmpdir/writesum.sha256sum" "$tmpdir/readsum.sha256sum"; then
+        echo "Data successfully retrieved!"
+    fi
+}
+
+tmpdir=$(mktemp -d)
 trap cleanup EXIT
-dd if=/dev/urandom bs=4K count=$2 status=none | tee hdout | sha256sum &
-sudo dd if=hdout of="$1" oflag=sync bs=4K status=progress
-wait $(jobs -p)
-echo Finished writing
-sudo dd if="$1" iflag=sync bs=4K count=$2 status=progress | sha256sum
-echo Finished reading back
+write_random_data "$@"
+read_random_data "$@"
+check_random_data
