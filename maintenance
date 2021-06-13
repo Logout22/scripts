@@ -27,5 +27,6 @@ if [[ -f "$F_LASTRUN" ]]; then
 fi
 
 start_maintenance
+zenity --info --title "Messenger Backup" --text 'Please safe Signal and Threema backups!'
 
 touch "$F_LASTRUN"
