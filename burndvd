@@ -1,3 +1,0 @@
-#! /bin/sh
-growisofs -dvd-compat -speed=1 -use-the-force-luke=dao -Z /dev/dvd=dvd.iso
-

@@ -1,5 +1,0 @@
-#! /bin/sh
-afraid.org-update
-# see https://github.com/Logout22/tcp-client-adapter
-tca -p 5500 -q 5900
-

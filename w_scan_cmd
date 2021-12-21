@@ -1,3 +1,0 @@
-#! /bin/bash
-w_scan -f c -c DE -X > channels.conf
-

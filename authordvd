@@ -1,3 +1,0 @@
-#! /bin/bash
-VIDEO_FORMAT=pal dvdauthor -o dvd/ -t "$1" -v pal+16:9
-VIDEO_FORMAT=pal dvdauthor -o dvd/ -T

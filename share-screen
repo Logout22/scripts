@@ -1,4 +1,0 @@
-#! /bin/bash
-# Install tigervnc to get x0vncserver
-# Run vncpasswd first
-x0vncserver -rfbauth "$HOME/.vnc/passwd" -display ":0"

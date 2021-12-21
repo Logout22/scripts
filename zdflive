@@ -1,3 +1,0 @@
-#! /bin/bash
-vlc "rtsp://3gp-livestreaming1.zdf.de/liveedge2/de10_v1_710.sdp"
-
