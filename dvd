@@ -1,5 +1,0 @@
-#! /bin/sh
-dvdauthor -o ~/dvd -t "$1"                #Add film as title movie
-dvdauthor -T -o ~/dvd                     #create table of contents
-mkisofs -dvd-video -o ~/dvd.img ~/dvd     #create the dvd filesystem image
-growisofs -dvd-compat -Z /dev/dvd=dvd.img #burn, baby, burn!
