@@ -11,11 +11,5 @@ function update_arch()
     pikaur -Syu --devel
 }
 
-function update_flatpak()
-{
-    flatpak update
-}
-
 trap onexit EXIT
 update_arch
-update_flatpak
