@@ -7,7 +7,7 @@ function rsync-dry-cmd() {
 rsync --dry-run "${OPTS[@]}" "$@"
 }
 
-OPTS=("-auv" "--partial" "--progress" "--inplace" "--delete")
+OPTS=("-ruv" "--partial" "--progress" "--inplace" "--delete")
 rsync-dry-cmd "$@"
 read -p "Continue? (y/[n])" cont_decision
 if [[ $cont_decision != "y" ]]; then
