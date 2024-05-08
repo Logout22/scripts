@@ -1,2 +1,0 @@
-#! /bin/bash
-iucode_tool -S --write-earlyfw=/boot/early_ucode.cpio /lib/firmware/intel-ucode/*
