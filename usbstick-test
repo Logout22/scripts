@@ -8,5 +8,5 @@ if [ "x$1" = "x" ]; then
     exit 2
 fi
 badblocks -w -s $1 || exit
-usbstick-format $1 $2 $3
+./usbstick-format $1 $2 $3
 
