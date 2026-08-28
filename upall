@@ -6,10 +6,11 @@ function onexit()
     read -rp "Consider reading the upgrade messages!"
 }
 
-function update_arch()
+function update()
 {
-    pikaur -Syu --devel
+    sudo dnf upgrade
+    flatpak update
 }
 
 trap onexit EXIT
-update_arch
+update
