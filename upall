@@ -10,7 +10,7 @@ function update()
 {
     sudo dnf upgrade
     flatpak update
-    snap refresh
+    sudo snap refresh
 }
 
 trap onexit EXIT
